@@ -11,6 +11,16 @@ class CityRepository {
     }
   }
 
+  async createCities({ cities }) {
+    try {
+      await City.bulkCreate(cities);
+      const allCities = await City.findAll();
+      return allCities;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async deleteCity(cityId) {
     try {
       await City.destroy({
@@ -46,7 +56,6 @@ class CityRepository {
 
   async getAllCities(filter) {
     // filter can be empty as well
-    console.log("@@@", filter);
     try {
       if (filter.name) {
         const cities = await City.findAll({
@@ -61,7 +70,6 @@ class CityRepository {
       const cities = await City.findAll();
       return cities;
     } catch (err) {
-      console.log("!!!", err);
       throw err;
     }
   }

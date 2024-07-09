@@ -51,6 +51,15 @@ class CityService {
       throw err;
     }
   }
+
+  async createCities(data) {
+    try {
+      const cities = await this.cityRepository.createCities(data);
+      return cities;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CityService;
