@@ -1,7 +1,12 @@
 const { Flights } = require("../models/index");
+const CrudRepository = require("./crud-repository");
 const { Op } = require("sequelize");
 
-class FlightRepository {
+class FlightRepository extends CrudRepository {
+  constructor() {
+    super(Flights);
+  }
+
   #createFilter(data) {
     let filter = {};
     if (data.arrivalAirportId) {
@@ -29,27 +34,7 @@ class FlightRepository {
     return filter;
   }
 
-  async createFlight(data) {
-    try {
-      const flight = await Flights.create(data);
-      return flight;
-    } catch (err) {
-      console.log("something went wrong in flight repository");
-      throw err;
-    }
-  }
-
-  async getFlight(flightId) {
-    try {
-      const flight = await Flights.findByPk(flightId);
-      return flight;
-    } catch (err) {
-      console.log("something went wrong in flight repository");
-      throw err;
-    }
-  }
-
-  async getAllFlights(filter) {
+  async getAll(filter) {
     try {
       const filterObject = this.#createFilter(filter);
       const flight = await Flights.findAll({

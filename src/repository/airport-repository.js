@@ -1,19 +1,19 @@
-const { Airplane } = require("../models/index");
+const { Airport } = require("../models/index");
 const CrudRepository = require("./crud-repository");
 const { Op } = require("sequelize");
 
-class AirplaneRepository extends CrudRepository {
+class AirportRepository extends CrudRepository {
   constructor() {
-    super(Airplane);
+    super(Airport);
   }
 
   async getAll(filter) {
     try {
-      if (filter.modelNumber) {
-        const result = await Airplane.findAll({
+      if (filter.name) {
+        const result = await Airport.findAll({
           where: {
-            modelNumber: {
-              [Op.startsWith]: filter.modelNumber,
+            name: {
+              [Op.startsWith]: filter.name,
             },
           },
         });
@@ -23,10 +23,10 @@ class AirplaneRepository extends CrudRepository {
       return result;
     } catch (err) {
       console.log(err);
-      console.log("Something went wrong in airplane repo");
+      console.log("Something went wrong in airport repo");
       throw err;
     }
   }
 }
 
-module.exports = AirplaneRepository;
+module.exports = AirportRepository;

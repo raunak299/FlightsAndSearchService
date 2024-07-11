@@ -1,21 +1,24 @@
-const { FlightRepository, AirplaneRepository } = require("../repository");
+const { FlightRepository } = require("../repository");
+const AirplaneRepository = require("../repository/airplane-repository");
+const CrudService = require("./crud-service");
 const { compareTime } = require("../utils/helper");
 
-class FlightService {
+class FlightService extends CrudService {
   constructor() {
-    this.airplaneRepository = new AirplaneRepository();
-    this.flightRepository = new FlightRepository();
+    const flightRepository = new FlightRepository();
+    const airplaneRepository = new AirplaneRepository();
+    super(flightRepository);
+    this.airplaneRepository = airplaneRepository;
+    this.flightRepository = flightRepository;
   }
 
-  async createFlight(data) {
+  async create(data) {
     try {
       if (compareTime(data.arrivalTime, data.departureTime) != 1) {
         throw { error: "Arrival time cannot be less than departure" };
       }
-      const airplane = await this.airplaneRepository.getAirplane(
-        data.airplaneId
-      );
-      const flight = await this.flightRepository.createFlight({
+      const airplane = await this.airplaneRepository.get(data.airplaneId);
+      const flight = await this.flightRepository.create({
         ...data,
         totalSeats: airplane.capacity,
       });
@@ -26,12 +29,12 @@ class FlightService {
     }
   }
 
-  async getAllFlightData(data) {
+  async getAll(data) {
     try {
-      const flights = await this.flightRepository.getAllFlights(data);
-      return flights;
+      const result = await this.flightRepository.getAll(data);
+      return result;
     } catch (err) {
-      console.log("something went wrong in flight service");
+      console.log("something went wrong in airport service");
       throw err;
     }
   }

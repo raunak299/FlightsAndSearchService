@@ -4,7 +4,7 @@ const flightService = new FlightService();
 
 const create = async (req, res) => {
   try {
-    const flight = await flightService.createFlight(req.body);
+    const flight = await flightService.create(req.body);
     return res.status(200).json({
       data: flight,
       success: true,
@@ -23,7 +23,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const response = await flightService.getAllFlightData(req.query);
+    const response = await flightService.getAll(req.query);
     return res.status(200).json({
       data: response,
       success: true,
@@ -40,7 +40,67 @@ const getAll = async (req, res) => {
   }
 };
 
+const destroy = async (req, res) => {
+  try {
+    const response = await flightService.destroy(req.params.id);
+    return res.status(200).json({
+      data: response,
+      success: true,
+      message: "Successfully deleted a flight",
+      err: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      data: {},
+      success: false,
+      message: "Not able to delete a flight",
+      err: err,
+    });
+  }
+};
+
+const get = async (req, res) => {
+  try {
+    const flight = await flightService.get(req.params.id);
+    return res.status(200).json({
+      data: flight,
+      success: true,
+      message: "Successfully fetched a flight",
+      err: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      data: {},
+      success: false,
+      message: "Not able to get a flight",
+      err: err,
+    });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const response = await flightService.update(req.params.id, req.body);
+    return res.status(200).json({
+      data: response,
+      success: true,
+      message: "Successfully updated a flight",
+      err: {},
+    });
+  } catch (err) {
+    return res.status(500).json({
+      data: {},
+      success: false,
+      message: "Not able to update a flight",
+      err: err,
+    });
+  }
+};
+
 module.exports = {
   create,
   getAll,
+  destroy,
+  get,
+  update,
 };
