@@ -89,7 +89,20 @@ const get = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const response = await flightService.update(req.params.id, req.body);
+    let flightRequestData = {
+      flightNumber: req.body.flightNumber,
+      airplaneId: req.body.airplaneId,
+      departureAirportId: req.body.departureAirportId,
+      arrivalAirportId: req.body.arrivalAirportId,
+      arrivalTime: req.body.arrivalTime,
+      departureTime: req.body.departureTime,
+      price: req.body.price,
+      boardingGate: req.body.boardingGate,
+    };
+    const response = await flightService.update(
+      req.params.id,
+      flightRequestData
+    );
     return res.status(200).json({
       data: response,
       success: true,

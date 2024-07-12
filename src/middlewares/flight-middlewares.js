@@ -1,5 +1,4 @@
 const validateCreateFlight = (req, res, next) => {
-  console.log(req.body);
   if (
     !req.body.flightNumber ||
     !req.body.airplaneId ||
@@ -9,7 +8,6 @@ const validateCreateFlight = (req, res, next) => {
     !req.body.departureTime ||
     !req.body.price
   ) {
-    console.log("error");
     return res.status(400).json({
       data: {},
       success: false,
