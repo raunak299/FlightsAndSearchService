@@ -99,6 +99,7 @@ const update = async (req, res) => {
       departureTime: req.body.departureTime,
       price: req.body.price,
       boardingGate: req.body.boardingGate,
+      totalSeats: req.body.totalSeats,
     };
     const response = await flightService.update(
       req.params.id,
